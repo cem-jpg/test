@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cemal Roleplay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font (internet varsa çeker, yoksa sistem fontuna düşer) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Genel stil */
+    :root {
+      --bg: #050816;
+      --bg-soft: #0f172a;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.15);
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --card: #020617;
+      --shadow: 0 20px 40px rgba(15, 23, 42, 0.7);
+      --radius: 18px;
+      --transition: 0.25s ease;
+    }
+
+    /* Light mode için değişenler */
+    body.light {
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --text: #111827;
+      --text-soft: #6b7280;
+      --card: #ffffff;
+      --shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .app {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    /* NAVBAR */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+    }
+
+    body.light .nav {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 20% 20%, #a855f7, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #e5e7eb;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.6);
+    }
+
+    .logo-text-main {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      font-size: 13px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-soft);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .nav-links a.nav-btn {
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.55);
+    }
+
+    .theme-toggle {
+      border: none;
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-soft);
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    body.light .theme-toggle {
+      background: rgba(243, 244, 246, 0.9);
+    }
+
+    .theme-toggle span.icon {
+      font-size: 14px;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(15, 23, 42, 0.35);
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 30px;
+      margin-top: 36px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .badge-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 11px;
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 5vw, 38px);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 480px;
+      margin-bottom: 18px;
+    }
+
+    .hero-typing {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 20px;
+      min-height: 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-solid,
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 9px 18px;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-solid {
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 18px 34px rgba(79, 70, 229, 0.7);
+    }
+
+    .btn-solid:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 24px 45px rgba(79, 70, 229, 0.75);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-soft);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    body.light .btn-ghost {
+      background: #f9fafb;
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      border-color: rgba(129, 140, 248, 0.7);
+    }
+
+    .btn-icon {
+      font-size: 15px;
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.4), transparent 50%),
+      radial-gradient(circle at bottom, rgba(167, 139, 250, 0.4), transparent 55%),
+      var(--card);
+      border-radius: 26px;
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+
+    .hero-chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.65);
+      color: #e5e7eb;
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    .code-block {
+      background: rgba(15, 23, 42, 0.75);
+      border-radius: 18px;
+      padding: 14px 12px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      backdrop-filter: blur(8px);
+      max-height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.light .code-block {
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .code-line {
+      white-space: pre;
+      margin-bottom: 1px;
+    }
+
+    .code-comment {
+      color: #6b7280;
+    }
+
+    .code-keyword {
+      color: #6366f1;
+    }
+
+    .code-func {
+      color: #22c55e;
+    }
+
+    .code-string {
+      color: #f97316;
+    }
+
+    .code-num {
+      color: #facc15;
+    }
+
+    .code-tag {
+      color: #eab308;
+    }
+
+    .floating-pill {
+      position: absolute;
+      right: -10px;
+      bottom: -10px;
+      width: 110px;
+      height: 110px;
+      border-radius: 32px;
+      background: conic-gradient(from 120deg, #22c55e, #6366f1, #a855f7, #22c55e);
+      opacity: 0.28;
+      filter: blur(5px);
+    }
+
+    .small-stats {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 11px;
+    }
+
+    .small-stat {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    body.light .small-stat {
+      background: #f9fafb;
+      border-color: rgba(209, 213, 219, 0.9);
+      color: #111827;
+    }
+
+    .small-stat-label {
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .small-stat-value {
+      font-weight: 600;
+    }
+
+    /* BÖLÜM BAŞLIKLARI */
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 12px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    /* KARTLAR - ÖZELLİKLER */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      padding: 14px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.6);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: var(--transition);
+    }
+
+    body.light .card {
+      box-shadow: 0 16px 26px rgba(148, 163, 184, 0.32);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.2), transparent 60%);
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(129, 140, 248, 0.9);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--accent);
+      background: rgba(37, 99, 235, 0.12);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    body.light .card-tag {
+      background: rgba(129, 140, 248, 0.12);
+    }
+
+    /* HAKKIMDA / ALT */
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .about-box {
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      padding: 14px 14px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.6);
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .about-box strong {
+      color: var(--text);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 11px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.75);
+    }
+
+    body.light .pill {
+      background: #f9fafb;
+    }
+
+    .contact-box {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(236, 72, 153, 0.2));
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(129, 140, 248, 0.55);
+      box-shadow: 0 20px 35px rgba(79, 70, 229, 0.4);
+      font-size: 13px;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .contact-email {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .contact-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-input,
+    .contact-textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 7px 10px;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text);
+      outline: none;
+      resize: none;
+    }
+
+    body.light .contact-input,
+    body.light .contact-textarea {
+      background: rgba(249, 250, 251, 0.9);
+      color: #111827;
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .contact-input:focus,
+    .contact-textarea:focus {
+      border-color: rgba(129, 140, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.5);
+    }
+
+    .contact-btn {
+      align-self: flex-end;
+      margin-top: 4px;
+    }
+
+    /* SCROLL TO TOP BUTON */
+    .scroll-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 18px 35px rgba(79, 70, 229, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+      transition: var(--transition);
+      font-size: 18px;
+      z-index: 30;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Küçük footer */
+    .footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 11px;
+      color: var(--text-soft);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="logo">
+        <div class="logo-icon">C</div>
+        <div>
+          <div class="logo-text-main">Cemal Roleplay</div>
+          <div class="logo-text-sub">HTML • CSS • JavaScript</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#hero">Ana Sayfa</a>
+        <a href="#features">Özellikler</a>
+        <a href="#about">Hakkında</a>
+        <a href="#contact" class="nav-btn">İletişim</a>
+
+        <button class="theme-toggle" id="themeToggle">
+          <span class="icon">🌙</span>
+          <span>Mod</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div>
+        <div class="badge">
+          <div class="badge-dot">⚡</div>
+          <span>Hazır şablon, direk kodla oyna</span>
+        </div>
+
+        <h1 class="hero-title">
+          Kendi <span class="accent">web siteni</span>  
+          saniyede ayağa kaldır.
+        </h1>
+
+        <p class="hero-subtitle">
+          Bu şablonu istediğin gibi değiştir. Metinleri, renkleri, kartları oynat;
+          biraz JS ekle, proje yap, CV'ye yaz. Tamamen sana ait olsun.
+        </p>
+
+        <div class="hero-typing" id="typingText"></div>
+
+        <div class="hero-actions">
+          <button class="btn-solid" id="scrollToContact">
+            <span class="btn-icon">🚀</span>
+            Hadi başla
+          </button>
+          <button class="btn-ghost" id="copyCodeInfo">
+            <span class="btn-icon">📋</span>
+            Kodu düzenle ipucu
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-chip">
+              <span class="hero-chip-dot"></span>
+              <span>Canlı Önizleme</span>
+            </div>
+            <span style="font-size: 11px; color: rgba(226,232,240,0.8);">
+              VS Code • Live Server
+            </span>
+          </div>
+
+          <div class="code-block" id="fakeEditor">
+            <div class="code-line code-comment">// index.html</div>
+            <div class="code-line"><span class="code-tag">&lt;script&gt;</span></div>
+            <div class="code-line">  <span class="code-keyword">const</span> <span class="code-func">hello</span> = () =&gt; {</div>
+            <div class="code-line">    <span class="code-keyword">return</span> <span class="code-string">"Merhaba Dünya 👋"</span>;</div>
+            <div class="code-line">  };</div>
+            <div class="code-line"></div>
+            <div class="code-line">  <span class="code-func">console</span>.<span class="code-keyword">log</span>(</div>
+            <div class="code-line">    hello(), <span class="code-string">"• JS çalışıyor •"</span>, <span class="code-num">2025</span></div>
+            <div class="code-line">  );</div>
+            <div class="code-line"><span class="code-tag">&lt;/script&gt;</span></div>
+          </div>
+
+          <div class="small-stats">
+            <div class="small-stat">
+              <div class="small-stat-label">Kod satırı</div>
+              <div class="small-stat-value" id="lineCount">350+</div>
+            </div>
+            <div class="small-stat">
+              <div class="small-stat-label">Tema</div>
+              <div class="small-stat-value" id="modeLabel">Dark mode</div>
+            </div>
+            <div class="small-stat">
+              <div class="small-stat-label">Durum</div>
+              <div class="small-stat-value" id="statusLabel">Hazır 🚀</div>
+            </div>
+          </div>
+
+          <div class="floating-pill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÖZELLİKLER -->
+    <section id="features">
+      <h2 class="section-title">Özellikler</h2>
+      <p class="section-subtitle">
+        Aşağıdaki kartları istediğin gibi çoğalt, ikonları değiştir, metinleri kendine göre düzenle.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <div class="card-title">Modern Tasarım</div>
+          <div class="card-desc">
+            Gradient arka plan, yumuşak köşeler, hafif gölge. Hepsi Vanilla CSS ile, ekstra kütüphane yok.
+          </div>
+          <div class="card-tag">
+            <span>CSS ile oynarsın</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">⚙️</div>
+          <div class="card-title">Temiz JavaScript</div>
+          <div class="card-desc">
+            Tema değiştirme, scroll butonu, küçük animasyonlar. Sadece <strong>script</strong> tag'i ile.
+          </div>
+          <div class="card-tag">
+            <span>Vanilla JS</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <div class="card-title">Mobil Uyumlu</div>
+          <div class="card-desc">
+            Grid yapısı responsive. Telefonda da, tablette de düzgün görünür.
+          </div>
+          <div class="card-tag">
+            <span>Responsive</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🧩</div>
+          <div class="card-title">Kolay Özelleştirme</div>
+          <div class="card-desc">
+            Sadece metinleri Türkçe’den İngilizce’ye çevir, ismini yaz, direkt portföy siten olsun.
+          </div>
+          <div class="card-tag">
+            <span>Portföy şablonu</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <div class="card-title">Hızlı Açılır</div>
+          <div class="card-desc">
+            Sıfır framework, sıfır build. Tek HTML dosyası, direkt tarayıcıda aç.
+          </div>
+          <div class="card-tag">
+            <span>Performans</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🔧</div>
+          <div class="card-title">VS Code Dostu</div>
+          <div class="card-desc">
+            Live Server ile aç, yaptığın değişikliği anında gör. Öğrenmeye de çok iyi.
+          </div>
+          <div class="card-tag">
+            <span>VS Code ❤️</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HAKKINDA & İLETİŞİM -->
+    <section id="about">
+      <h2 class="section-title">Hakkında</h2>
+      <p class="section-subtitle">
+        Bu kısmı komple kendine göre yaz. Aşağıdaki yazıyı silip kendi biyografini yapıştır.
+      </p>
+
+      <div class="two-col">
+        <div class="about-box">
+          <p>
+            <strong>Selam, ben buranın sahibi.</strong><br>
+            Frontend, backend, telefon tamiri, kablo karmaşası… ne varsa bir şekilde
+            kurcalamayı seviyorum. Bu site de, elimde dursun istediğim zaman
+            düzenleyeyim, projelere ek yapayım diye hazırladığım bir şablon.
+          </p>
+          <p style="margin-top: 8px;">
+            Metinleri, renkleri, ikonları değiştir; birkaç ekstra sayfa ekle; GitHub Pages
+            ya da başka hosting'e at, olsun sana kendi kişisel web siten.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill">HTML • CSS • JS</div>
+            <div class="pill">VS Code</div>
+            <div class="pill">Dark / Light mode</div>
+            <div class="pill">Tamamen editlenebilir</div>
+          </div>
+        </div>
+
+        <div id="contact">
+          <div class="contact-box">
+            <div class="contact-label">İletişim</div>
+            <div class="contact-email" id="contactEmail">
+              seninmailin@example.com
+            </div>
+
+            <div class="contact-inputs">
+              <input type="text" class="contact-input" id="nameInput" placeholder="İsmin" />
+              <textarea
+                class="contact-textarea"
+                id="messageInput"
+                rows="3"
+                placeholder="Mesajın (şu anlık backend yok, konsola düşer)"
+              ></textarea>
+
+              <button class="btn-solid contact-btn" id="sendMessageBtn">
+                <span class="btn-icon">📨</span>
+                Sahte Mesaj Gönder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Bu şablonu düzenle, adını yaz, projeni ekle, <strong>artık bu site senin</strong>. 😎
+    </div>
+  </div>
+
+  <!-- Scroll-top butonu -->
+  <button class="scroll-top" id="scrollTopBtn">↑</button>
+
+  <script>
+    // === Tema Değiştirme ===
+    const themeToggleBtn = document.getElementById("themeToggle");
+    const modeLabel = document.getElementById("modeLabel");
+
+    // LocalStorage'dan tema oku
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light");
+      modeLabel.textContent = "Light mode";
+      themeToggleBtn.querySelector(".icon").textContent = "☀️";
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const isLight = document.body.classList.contains("light");
+      modeLabel.textContent = isLight ? "Light mode" : "Dark mode";
+      themeToggleBtn.querySelector(".icon").textContent = isLight ? "☀️" : "🌙";
+      localStorage.setItem("theme", isLight ? "light" : "dark");
+    });
+
+    // === Typing efekti ===
+    const typingEl = document.getElementById("typingText");
+    const typingTexts = [
+      "• Bizimle beraber yolculuğa çıkmaya hazırlan.",
+      "• Hayat her zaman yazılımla geçer.",
+      "• cemalp4363@gmail.com Buradan benimle iletişime geçebilirsin dostum.",
+      "• Proje olarak GitHub'a at, CV'ye yaz. 🚀"
+    ];
+    let typingIndex = 0;
+    let charIndex = 0;
+    let currentText = "";
+    let isDeleting = false;
+
+    function typeLoop() {
+      if (!typingEl) return;
+
+      if (!isDeleting && charIndex <= typingTexts[typingIndex].length) {
+        currentText = typingTexts[typingIndex].substring(0, charIndex++);
+        typingEl.textContent = currentText;
+        setTimeout(typeLoop, 35);
+      } else if (!isDeleting && charIndex > typingTexts[typingIndex].length) {
+        isDeleting = true;
+        setTimeout(typeLoop, 900);
+      } else if (isDeleting && charIndex >= 0) {
+        currentText = typingTexts[typingIndex].substring(0, charIndex--);
+        typingEl.textContent = currentText;
+        setTimeout(typeLoop, 25);
+      } else {
+        isDeleting = false;
+        typingIndex = (typingIndex + 1) % typingTexts.length;
+        charIndex = 0;
+        setTimeout(typeLoop, 200);
+      }
+    }
+
+    typeLoop();
+
+    // === Scroll to contact butonu ===
+    const scrollToContactBtn = document.getElementById("scrollToContact");
+    const contactSection = document.getElementById("contact");
+
+    scrollToContactBtn.addEventListener("click", () => {
+      contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // === Scroll-top butonu ===
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 250) {
+        scrollTopBtn.classList.add("visible");
+      } else {
+        scrollTopBtn.classList.remove("visible");
+      }
+    });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // === İpucu butonu (copy code info) ===
+    const copyCodeInfoBtn = document.getElementById("copyCodeInfo");
+    const statusLabel = document.getElementById("statusLabel");
+
+    copyCodeInfoBtn.addEventListener("click", () => {
+      const hint =
+        "VS Code ipucu:\n\n" +
+        "1) Yeni bir klasör aç.\n" +
+        "2) index.html dosyası oluştur.\n" +
+        "3) Bu kodu yapıştır.\n" +
+        "4) Live Server ile 'Open with Live Server' de.\n" +
+        "5) Değiştir, kaydet, tarayıcıdan sonucu gör. 👌";
+
+      // Clipboard API destekleniyorsa kopyala
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(hint).then(() => {
+          statusLabel.textContent = "İpucu panoya kopyalandı ✅";
+          setTimeout(() => {
+            statusLabel.textContent = "Hazır 🚀";
+          }, 2200);
+        }).catch(() => {
+          alert(hint);
+        });
+      } else {
+        alert(hint);
+      }
+    });
+
+    // === Sahte mesaj gönderme (console.log) ===
+    const sendMessageBtn = document.getElementById("sendMessageBtn");
+    const nameInput = document.getElementById("nameInput");
+    const messageInput = document.getElementById("messageInput");
+
+    sendMessageBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim() || "İsimsiz";
+      const msg = messageInput.value.trim() || "Boş mesaj";
+
+      console.log("Yeni (fake) mesaj 📩", {
+        isim: name,
+        mesaj: msg,
+        tarih: new Date().toLocaleString()
+      });
+
+      alert("Mesajın şu anlık sadece konsola düşüyor (F12 → Console). Backend ekleyince gerçekten gider 😄");
+      messageInput.value = "";
+    });
+
+    // Küçük gimmick: satır sayısı hesaplama (sadece gösterge)
+    const lineCountEl = document.getElementById("lineCount");
+    lineCountEl.textContent = "300+";
+  </script>
+</body>
+</html>
